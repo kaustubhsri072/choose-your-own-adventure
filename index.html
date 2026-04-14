@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CYOA Studio | Cave of Time</title>
+  <meta name="description" content="Web-based CYOA authoring and reader interface for The Cave of Time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="web/styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+
+  <header class="topbar reveal-1">
+    <div>
+      <p class="eyebrow">Choose Your Own Adventure</p>
+      <h1>CYOA Studio</h1>
+    </div>
+    <div class="meta-pill">
+      <span id="storyStatus">Loading story data...</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="card reader reveal-2">
+      <div class="card-head">
+        <h2>Reader</h2>
+        <div class="inline-controls">
+          <button id="restartBtn" type="button">Restart</button>
+          <button id="copyPathBtn" type="button">Copy path</button>
+        </div>
+      </div>
+
+      <div class="path-row">
+        <label for="jumpPageInput">Jump to page</label>
+        <input id="jumpPageInput" type="number" min="1" step="1" placeholder="2" />
+        <button id="jumpBtn" type="button">Go</button>
+      </div>
+
+      <p class="page-label" id="currentPageLabel">Page -</p>
+      <article id="pageContent" class="page-content">Loading...</article>
+
+      <h3>Choices</h3>
+      <ul id="choiceList" class="choice-list"></ul>
+
+      <h3>Current path</h3>
+      <p id="pathDisplay" class="path-display"></p>
+    </section>
+
+    <section class="card graph reveal-3">
+      <div class="card-head">
+        <h2>Graph Explorer</h2>
+        <button id="validateBtn" type="button">Run checks</button>
+      </div>
+
+      <div class="stat-grid">
+        <div>
+          <p class="stat-label">Nodes</p>
+          <p id="nodeCount" class="stat-value">-</p>
+        </div>
+        <div>
+          <p class="stat-label">Edges</p>
+          <p id="edgeCount" class="stat-value">-</p>
+        </div>
+        <div>
+          <p class="stat-label">Terminal</p>
+          <p id="terminalCount" class="stat-value">-</p>
+        </div>
+      </div>
+
+      <div class="adjacency">
+        <p class="stat-label">Outgoing from current page</p>
+        <p id="adjacencyNow" class="adjacency-text">-</p>
+      </div>
+
+      <p id="validationSummary" class="validation">Validation not run yet.</p>
+
+      <h3>Story map snapshot</h3>
+      <div class="graph-preview">
+        <img src="output/cot-story-graph.svg" alt="Story graph overview" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="card authoring reveal-4">
+      <div class="card-head">
+        <h2>Authoring</h2>
+        <span class="local-badge">Local draft</span>
+      </div>
+
+      <p class="muted">Edits are saved in your browser and do not overwrite repository files.</p>
+
+      <label for="editText">Edit current page text</label>
+      <textarea id="editText" rows="7" placeholder="Write revised text for this page..."></textarea>
+      <div class="inline-controls">
+        <button id="savePageBtn" type="button">Save page text</button>
+        <button id="clearPageBtn" type="button" class="ghost">Clear page override</button>
+      </div>
+
+      <hr />
+
+      <h3>Add page</h3>
+      <div class="stack">
+        <input id="newPageId" type="number" min="1" step="1" placeholder="New page id" />
+        <textarea id="newPageText" rows="4" placeholder="New page text..."></textarea>
+        <button id="addPageBtn" type="button">Add page</button>
+      </div>
+
+      <h3>Add choice from current page</h3>
+      <div class="stack">
+        <input id="newChoiceTarget" type="number" min="1" step="1" placeholder="Target page" />
+        <input id="newChoiceLabel" type="text" placeholder="Choice label (optional)" />
+        <button id="addChoiceBtn" type="button">Add choice</button>
+      </div>
+
+      <div class="inline-controls">
+        <button id="exportBtn" type="button">Export draft JSON</button>
+        <button id="resetDraftBtn" type="button" class="ghost">Reset draft</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer reveal-4">
+    <p>Built for collaborative CYOA authoring and traversal.</p>
+  </footer>
+
+  <script src="web/app.js" type="module"></script>
+</body>
+</html>

@@ -144,3 +144,115 @@ When resuming work:
 2. Treat output/cot-pages-ocr-v2 as the current source text.
 3. If extraction quality needs improvement, update reextract_cot_ocr_split.py rather than rebuilding older workflows.
 4. If graph or story outputs need regeneration, rerun build_story_graph.py, write_all_stories.py, and render_story_graph_svg.py in that order.
+
+## Architecture Summary (Current)
+
+The current repository is a content-processing pipeline, not yet a full web application.
+
+Pipeline stages:
+1. OCR extraction from spread-scanned PDF into per-page text files.
+2. Story graph construction from extracted page text.
+3. Bounded path expansion into complete story files.
+4. Graph rendering into SVG for visualization.
+
+Data flow:
+- Input: `samples/the-cave-of-time.pdf`
+- Intermediate canonical text: `output/cot-pages-ocr-v2/*.txt`
+- Graph model: `output/cot-story-graph.mmd`
+- Story variants: `output/cot-stories/story-*.txt` and `output/cot-stories/manifest.json`
+- Visual artifact: `output/cot-story-graph.svg`
+
+## Approach Taken So Far
+
+- Corrected initial OCR approach after discovering that the scan is spread-based, where one PDF page contains two story pages.
+- Standardized on story page numbers as traversal truth.
+- Added bounded traversal controls to prevent infinite loop behavior:
+  - cycle detection
+  - maximum decision-point cutoff
+- Added visualization improvements to make the graph easier to inspect:
+  - layered layout
+  - terminal node highlighting
+  - main trunk highlighting from page 2
+
+## Planned Architecture (Web Authoring + Reader)
+
+Target capability: a web-based tool with authoring mode and reader mode.
+
+Recommended phases:
+1. Reader MVP
+   - Load a normalized story graph JSON.
+   - Render current page text and next choices.
+   - Track and display path history.
+2. Graph Explorer
+   - Visualize nodes/edges.
+   - Highlight active traversal path and terminal nodes.
+3. Authoring MVP
+   - Add/edit/delete nodes.
+   - Add/edit/delete choices.
+   - Validate missing targets, unreachable nodes, and suspicious cycles.
+4. Packaging + Deployment
+   - Publish as a public web app.
+   - Keep source and deployment process reproducible from repo.
+
+Proposed data model for app use:
+- `story.json`
+  - `nodes`: `{ id, title?, text, tags? }`
+  - `choices`: `{ from, to, label }`
+  - `meta`: `{ startNode, version, source }`
+
+## AI Session Protocol (Important)
+
+For any future AI session in this repo:
+1. Read `Codebase.md` first.
+2. Read `AI-Instructions.md` second for instruction history constraints.
+3. Verify canonical outputs and scripts before proposing new workflow changes.
+4. Preserve historical trace files when planning major changes.
+
+## Team Workflow Recommendation
+
+- Each teammate works on separate feature branches and opens reviewable pull requests.
+- Keep commits small and descriptive for contribution visibility.
+- Verify team contribution coverage at:
+  - `https://github.com/<GitHubUserName>/<ProjectName>/commits/main/`
+
+## Web Layer (Implemented)
+
+A browser-based interface now exists at the repository root entry page.
+
+Primary files:
+- `index.html`
+- `web/styles.css`
+- `web/app.js`
+
+Implemented capabilities:
+- Reader mode for branching traversal from page 2.
+- Graph explorer with node/edge/terminal metrics and current-page adjacency.
+- Validation checks:
+  - missing page text
+  - unreachable nodes from page 2
+- Local authoring draft tools:
+  - edit page text
+  - add page
+  - add choice
+  - export local draft JSON
+
+Draft behavior:
+- Draft edits are stored in browser local storage.
+- Draft edits do not overwrite repository source files.
+
+## Runtime Data Sources Used by Web App
+
+- Graph source: `output/cot-story-graph.mmd`
+- Page text source: `output/cot-pages-ocr-v2/*.txt`
+- Graph image preview: `output/cot-story-graph.svg`
+
+The app parses Mermaid edges client-side and fetches page text files on demand.
+
+## Deployment Automation
+
+GitHub Pages workflow file:
+- `.github/workflows/deploy-pages.yml`
+
+Behavior:
+- Triggered on push to `main` and manual dispatch.
+- Publishes repository static content through GitHub Pages Actions.
