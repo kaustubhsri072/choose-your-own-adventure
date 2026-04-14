@@ -2,8 +2,8 @@
 
 ## Submission Info
 
-- Deployed Website URL: `REPLACE_WITH_PUBLIC_DEPLOYMENT_URL`
-- GitHub Repository URL: [`Choose your own adventure`](https://github.com/kaustubhsri072/choose-your-own-adventure)
+- Deployed Website URL: [`Choose your own adventure site`](https://kaustubhsri072.github.io/choose-your-own-adventure/)
+- GitHub Repository URL: [`Choose your own adventure repo`](https://github.com/kaustubhsri072/choose-your-own-adventure)
 - Team Members:
 	- `Krish Marpuri`
 	- `Kaustubh Srikantapuram`
