@@ -4,10 +4,9 @@
 
 - Deployed Website URL: `REPLACE_WITH_PUBLIC_DEPLOYMENT_URL`
 - GitHub Repository URL: `https://github.com/pisan382/choose-your-own-adventure`
-- Team Members (optional):
-	- `Name 1`
-	- `Name 2`
-	- `Name 3`
+- Team Members:
+	- `Krish Marpuri`
+	- `Kaustubh Srikantapuram`
 
 ## Project Goal
 
