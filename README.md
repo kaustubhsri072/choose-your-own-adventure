@@ -3,7 +3,7 @@
 ## Submission Info
 
 - Deployed Website URL: `REPLACE_WITH_PUBLIC_DEPLOYMENT_URL`
-- GitHub Repository URL: `https://github.com/pisan382/choose-your-own-adventure`
+- GitHub Repository URL: [`Choose your own adventure`](https://github.com/kaustubhsri072/choose-your-own-adventure)
 - Team Members:
 	- `Krish Marpuri`
 	- `Kaustubh Srikantapuram`
